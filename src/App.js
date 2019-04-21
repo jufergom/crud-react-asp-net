@@ -1,6 +1,28 @@
 import React, { Component } from 'react';
 import './App.css';
 import ShinobiItem from './ShinobiItem';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center'
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+  },
+  dense: {
+    marginTop: 16,
+  },
+  menu: {
+    width: 200,
+  },
+});
+
 
 class App extends Component {
   constructor(props) {
@@ -16,7 +38,6 @@ class App extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.onEditSubmit = this.onEditSubmit.bind(this);
   }
-
   componentDidMount() {
     fetch('http://localhost:58624/api/Shinobi')
       .then(response => response.json())
@@ -77,7 +98,6 @@ class App extends Component {
     }).then(res => res.text())
     .catch(error => console.error('Error:', error))
     .then(response => console.log('Success:', response));
-    
   }
 
   onDelete = (id) => {
@@ -90,7 +110,6 @@ class App extends Component {
     this.setState({
       shinobis: filteredShinobis
     });
-
     //send delete request to database
     let url = 'http://localhost:58624/api/Shinobi?id='+id;
     fetch(url, {
@@ -112,6 +131,7 @@ class App extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     let shinobiList = this.state.shinobis.map(shinobi => (
       <ShinobiItem
         key={shinobi.Id}
@@ -126,25 +146,38 @@ class App extends Component {
     return (
       <div className="App">
         <h2>Shinobis del mundo</h2>
-        <input 
-          type="text" 
-          placeholder="nombre del shinobi" 
-          value={this.state.name} 
-          onChange={this.handleChange('name')} 
-        />
-        <input 
-          type="text" 
-          placeholder="edad del shinobi" 
-          value={this.state.age} 
-          onChange={this.handleChange('age')} 
-        />
-        <input 
-          type="text" 
-          placeholder="rango ninja" 
-          value={this.state.rank} 
-          onChange={this.handleChange('rank')} 
-        />
-        <button onClick={this.onAdd}>Agregar</button>
+        <div className={classes.container}>
+          <TextField
+            id="outlined-name"
+            label="Nombre del shinobi"
+            className={classes.textField}
+            value={this.state.name}
+            onChange={this.handleChange('name')}
+            margin="normal"
+            variant="outlined"
+          />
+          <TextField
+            id="outlined-name"
+            label="Edad del shinobi"
+            className={classes.textField}
+            value={this.state.age}
+            onChange={this.handleChange('age')}
+            margin="normal"
+            variant="outlined"
+          />
+          <TextField
+            id="outlined-name"
+            label="Rango ninja"
+            className={classes.textField}
+            value={this.state.rank}
+            onChange={this.handleChange('rank')}
+            margin="normal"
+            variant="outlined"
+          />
+          </div>
+        <Button variant="contained" className={classes.button} onClick={this.onAdd}>
+          Agregar
+        </Button>
         <ul>
           {shinobiList}
         </ul>
@@ -153,4 +186,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withStyles(styles)(App);

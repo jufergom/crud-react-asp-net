@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
 
 class ShinobiItem extends Component {
     constructor(props) {
@@ -27,7 +28,7 @@ class ShinobiItem extends Component {
     }
 
     render() {
-      const { name, age ,rank} = this.props;
+      const { name, age ,rank } = this.props;
       return (
         <div>
             {
@@ -63,13 +64,16 @@ class ShinobiItem extends Component {
                     {` | `}
                     <span>{rank}</span>
                     {` | `}
-                    <button onClick={this.onEdit}>edit</button>
+                    <Button variant="contained" color="secondary" onClick={this.onEdit}>
+                        Editar
+                    </Button>
                     {` | `}
-                    <button onClick={this.onDelete}>delete</button>
+                    <Button variant="contained" color="secondary" onClick={this.onDelete}>
+                        Eliminar
+                    </Button>
                 </div>
             )
-        }
-            
+        }   
         </div>
       );
     }
